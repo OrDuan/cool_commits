@@ -2,17 +2,17 @@ import subprocess
 from collections import Counter
 
 
-def main():
+def main(path):
     try:
-        p = subprocess.run('git log --pretty=format:"%h"', shell=True, stdout=subprocess.PIPE)
-        p = p.stdout
-    except AttributeError:
-        p, _ = subprocess.Popen(['git', 'log', '--pretty=format:"%h"'], stdout=subprocess.PIPE).communicate()
-        p = p.decode()
+        p = subprocess.run('git log --pretty=format:"%h"', shell=True, stdout=subprocess.PIPE, cwd=path)
+    except FileNotFoundError:
+        raise FileNotFoundError(f'No such directory: "{path}"') from None
+
+    commits_list = p.stdout.splitlines()
 
     for version in (version1, version2, version3):
-        most_common = version(p.splitlines())[0]
-        print(most_common)
+        most_common = version(commits_list)
+        print(most_common[0])
 
 
 def version3(commits):
@@ -48,4 +48,4 @@ def version1(commits):
 
 
 if __name__ == "__main__":
-    main()
+    main('/')
