@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from collections import Counter
+from textwrap import dedent
 from typing import List
 
 from cool_commits.utils import git_commit_info
@@ -28,28 +29,41 @@ class BaseParser(ABC):
     def __repr__(self):
         return f'< {self.__class__.__name__} >'
 
-    def info(self):
+    def info(self) -> str:
         text = f"""
 Commit hash: {self.__str__()}
 Commit parser: {self.__repr__()}
-{self.description if self.description else ''}
+{dedent(self.description) if self.description else ''}
 {git_commit_info(self.commit, self.path)}"""
         return text
 
 
-class Parser1(BaseParser):
+class MostCommon(BaseParser):
+    description = """
+        Trying to find a commit with highest most common repeated char.
+        For example:
+        1231114 - has rank of 4, because `1` is the most common char.  
+    """
+
     def parse(self, commits):
-        most_common = (b'', 0)
+        most_common = ('', 0)
+
         for commit in commits:
-            current_most = Counter(commit).most_common()[1][1]
+            current_most = Counter(commit).most_common()[0][1]
             if current_most > most_common[1]:
                 most_common = (commit, current_most)
-        return most_common[0].decode()
+        return most_common[0]
 
 
-class Parser2(BaseParser):
+class Consecutive(BaseParser):
+    description = """
+        Trying to find a commit with highest consecutive chars.
+        For example:
+        1231114 - has rank of 3, because `1` is consecutive 3 the most.  
+    """
+
     def parse(self, commits):
-        most_common = (b'', 0)
+        most_common = ('', 0)
         for commit in commits:
             current_most = 0
             for i, ch in enumerate(commit[:-1]):
@@ -58,15 +72,4 @@ class Parser2(BaseParser):
             if current_most > most_common[1]:
                 most_common = (commit, current_most)
 
-        return most_common[0].decode()
-
-
-class Parser3(BaseParser):
-    def parse(self, commits):
-        most_common = (b'', 10)
-        for commit in commits:
-            current_most = set(commit)
-            if len(current_most) < most_common[1]:
-                most_common = (commit, len(current_most))
-
-        return most_common[0].decode()
+        return most_common[0]

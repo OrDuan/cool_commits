@@ -6,7 +6,7 @@ def git_all_commits(path):
         p = subprocess.run('git log --pretty=format:"%h"', shell=True, stdout=subprocess.PIPE, cwd=path)
     except FileNotFoundError:
         raise FileNotFoundError(f'No such directory: "{path}"') from None
-    return p.stdout.splitlines()
+    return p.stdout.decode().splitlines()
 
 
 def git_commit_info(commit_hash, path):
