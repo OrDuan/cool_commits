@@ -7,7 +7,10 @@ if __name__ == '__main__':
     if command == 'find':
         print(*find(sys.argv[2]))
     elif command == 'info':
-        info(sys.argv[2])
+        for info_text in info(sys.argv[2]):
+            print('='*60)
+            print(info_text)
+        print('='*60)
     else:
         raise IOError('Invalid command, supporting only `find` and `info`.')
 
