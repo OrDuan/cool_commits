@@ -70,10 +70,10 @@ if you want to integrate the cool_coomit output into your code, you can import t
 ```
 from cool_commits import find, info
 
-# Returning a commit hash for each parser
+# Returning a commit hash for each parser's commit
 print(*find('/path/to/directory/with/git'))
 
-# Returning a text info for each parser
+# Returning a text info for each parser's commit
 print(*info('/path/to/directory/with/git'))
 ```
 
@@ -82,9 +82,11 @@ print(*info('/path/to/directory/with/git'))
 
 If you want to add your own parser, all you need to do is write custom class, that inherit from `BaseParser`  and implement the `parse` method:
 ```
+from cool_commits.parsers import BaseParser
+
 class TestParser(BaseParser):
-	description = "Optional description that describe how your parser works"
-	
+    description = "Optional description that describe how your parser works"
+    
     def parse(self, commits):
         # Write here you logic. `commits` is a list of str commits
         # For this example, my parser will return the first commit,
