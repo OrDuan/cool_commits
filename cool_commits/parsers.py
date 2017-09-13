@@ -38,7 +38,7 @@ Commit parser: {self.__repr__()}
         return text
 
 
-class MostCommon(BaseParser):
+class MostCommonParser(BaseParser):
     description = """
         Trying to find a commit with highest most common repeated char.
         For example:
@@ -55,7 +55,7 @@ class MostCommon(BaseParser):
         return most_common[0]
 
 
-class Consecutive(BaseParser):
+class ConsecutiveParser(BaseParser):
     description = """
         Trying to find a commit with highest consecutive chars.
         For example:
