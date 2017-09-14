@@ -10,26 +10,26 @@ I made this small project because I'm obsessed with finding cool commits, every 
 I'm wishing I'll have something cool, most of the time my heart breaks :(
 
 ## Requirements
-- Python3.6
+- Python3.5 or higher
 - A absolute path of a directory with git repo in it
 
 ## Installation
 `pip install cool-commits`
 
 ## Executing
-If you want the **tl;dr** version, with only the hash as a list, run:
+If you want the **TL;DR** version, with only the hash as a list, run:
 
-`python3.6 -m cool_commits find /path/to/directory/with/git`
+`python -m cool_commits find /path/to/directory/with/git`
 
 This will print something like:
 
 `6661666 aaa6aaa`
 
-Each commit represent the most ranked commit from each `parser`(algorithm/pattern)
+Each commit represent the coolest commit from each `parser`(algorithm/pattern)
 
 If you want more info about the commit and the `parser`, run:
 
-`python3.6 -m cool_commits info /path/to/directory/with/git`
+`python -m cool_commits info /path/to/directory/with/git`
 
 This will print:
 ```
