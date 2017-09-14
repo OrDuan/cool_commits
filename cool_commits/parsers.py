@@ -1,41 +1,51 @@
-from abc import ABC, abstractmethod
 from collections import Counter
 from textwrap import dedent
 from typing import List
 
 from cool_commits.utils import git_commit_info
 
+# A list of instances of BaseParser, this way
+# we can auto discover al inherited parsers
+all_parsers = []
 
-class BaseParser(ABC):
-    # A list of instances of child classes, will be initiate
-    # by BaseParser and not by the user
-    children = []
+
+class BasePaerserMeta(type):
+    def __init__(cls, name, bases=None, object=None):
+        if name != 'BaseParser':
+            all_parsers.append(cls)
+        super().__init__(object)
+
+
+class BaseParser(metaclass=BasePaerserMeta):
     description = None
 
     def __init__(self, commits, path):
         self.path = path
         self.commit = self.parse(commits)
 
-    @abstractmethod
     def parse(self, commits: List[str]) -> str:
-        pass
-
-    def __init_subclass__(cls, **kwargs):
-        BaseParser.children.append(cls)
+        raise NotImplementedError
 
     def __str__(self):
         return self.commit
 
     def __repr__(self):
-        return f'< {self.__class__.__name__} >'
+        return '< {} >'.format(self.__class__.__name__)
 
     def info(self) -> str:
-        text = f"""
-Commit hash: {self.__str__()}
-Commit parser: {self.__repr__()}
-{dedent(self.description) if self.description else ''}
-{git_commit_info(self.commit, self.path)}"""
-        return text
+        data = dict(
+            hash=self.__str__(),
+            parser=self.__repr__(),
+            description=dedent(self.description if self.description else ''),
+            commit_info=git_commit_info(self.commit, self.path),
+        )
+        text = """
+Commit hash: {hash}
+Commit parser: {parser}
+{description}
+{commit_info}
+""".format(**data)
+        return text.strip()
 
 
 class MostCommonParser(BaseParser):

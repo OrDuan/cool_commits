@@ -34,8 +34,9 @@ setup(
         'Topic :: Software Development :: Version Control :: Git',
         'License :: OSI Approved :: Apache Software License',
         'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.5',
     ],
-    python_requires='>=3.6',
+    python_requires='>=3.5',
 
     # What does your project relate to?
     keywords='git cool commits hashes ',
