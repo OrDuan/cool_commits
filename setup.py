@@ -41,12 +41,6 @@ setup(
     # What does your project relate to?
     keywords='git cool commits hashes ',
 
-    entry_points={
-        'console_scripts': [
-            'cool_commits=cool_commits:fin3d',
-        ],
-    },
-
     # You can just specify the packages manually here if your project is
     # simple. Or you can use find_packages().
     packages=find_packages(),
