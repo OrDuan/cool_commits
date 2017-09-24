@@ -78,7 +78,7 @@ print(*info('/path/to/directory/with/git'))
 ```
 
 ## Writing your own parser
-*Author note: If you think your parser is cool, submit it as a PR, or by email to: orduani@gmail.com*
+*Author note: If you think your parser is cool, submit it as a PR*
 
 If you want to add your own parser, all you need to do is write custom class, that inherit from `BaseParser`  and implement the `parse` method:
 ```
